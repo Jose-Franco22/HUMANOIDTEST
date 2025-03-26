@@ -1,24 +1,62 @@
+# import gymnasium as gym
+# from stable_baselines3 import PPO
+# from stable_baselines3.common.env_util import make_vec_env
+# from humanoid_v4 import HumanoidEnv
+# #from humanoidstandup_v4 import HumanoidStandupEnv #do later 
+
+
+# gym.pprint_registry()
+
+# # Create and wrap the environment
+# env = make_vec_env(lambda: HumanoidEnv(render_mode='human'), n_envs=1)  # Wrap the environment properly
+
+# # Define the PPO model
+# model = PPO("MlpPolicy", env, verbose=1, tensorboard_log="./ppo_humanoid_tensorboard/")
+
+# # Train the model
+# model.learn(total_timesteps=5000000)  # You can adjust the total_timesteps based on your requirements
+
+# # Save the trained model
+# print("saving")
+
+# model.save("ppo_humanoid_model_muscles")
+
+
+# print("saved")
+
+# env.close()
+# Load the trained model (if needed)
+# model = PPO.load("ppo_humanoid_model")
+
+
+
+
+
+
 import gymnasium as gym
 from stable_baselines3 import PPO
 from stable_baselines3.common.env_util import make_vec_env
-from humanoid_v4 import HumanoidEnv
-#from humanoidstandup_v4 import HumanoidStandupEnv #do later 
+from humanoid_v4 import HumanoidEnv  # Ensure you have the correct path to this file
 
-
+# Registering or verifying that the environment exists (if necessary)
 gym.pprint_registry()
 
 # Create and wrap the environment
 env = make_vec_env(lambda: HumanoidEnv(render_mode='human'), n_envs=1)  # Wrap the environment properly
 
-# Define the PPO model
-model = PPO("MlpPolicy", env, verbose=1, tensorboard_log="./ppo_humanoid_tensorboard/")
+# Ensure the environment is correctly initialized
+assert env is not None, "Environment was not created properly!"
 
-# Train the model
-model.learn(total_timesteps=5000)  # You can adjust the total_timesteps based on your requirements
+# Define the PPO model
+# model = PPO("MlpPolicy", env, verbose=1, tensorboard_log="./ppo_humanoid_tensorboard/")  # Initialize model for training
+
+# Alternatively, load the pre-trained model (if you're just testing the trained model)
+model = PPO.load("ppo_humanoid_model_muscles_trained.zip", env=env)
+
+# Train the model (if starting from scratch)
+model.learn(total_timesteps=10000000)  # You can adjust the total_timesteps based on your requirements
 
 # Save the trained model
-model.save("ppo_humanoid_model_muscles")
+model.save("ppo_humanoid_model_muscles_trained_v2")
 
 env.close()
-# Load the trained model (if needed)
-# model = PPO.load("ppo_humanoid_model")
