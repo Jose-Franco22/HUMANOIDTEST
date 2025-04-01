@@ -1,0 +1,412 @@
+<mujoco model="humanoid">
+    <compiler angle="degree" inertiafromgeom="true"/>
+    <default>
+        <joint armature="1" damping="1" limited="true"/>
+        <geom conaffinity="1" condim="1" contype="1" margin="0.001" material="geom" rgba="0.8 0.6 .4 1"/>
+        <motor ctrllimited="true" ctrlrange="-.4 .4"/>
+    </default>
+    <option integrator="RK4" iterations="50" solver="PGS" timestep="0.003">
+        <!-- <flags solverstat="enable" energy="enable"/>-->
+    </option>
+    <size nkey="5" nuser_geom="1"/>
+    <visual>
+        <map fogend="5" fogstart="3"/>
+    </visual>
+    <asset>
+        <texture builtin="gradient" height="100" rgb1=".4 .5 .6" rgb2="0 0 0" type="skybox" width="100"/>
+        <!-- <texture builtin="gradient" height="100" rgb1="1 1 1" rgb2="0 0 0" type="skybox" width="100"/>-->
+        <texture builtin="flat" height="1278" mark="cross" markrgb="1 1 1" name="texgeom" random="0.01" rgb1="0.8 0.6 0.4" rgb2="0.8 0.6 0.4" type="cube" width="127"/>
+        <texture builtin="checker" height="100" name="texplane" rgb1="0 0 0" rgb2="0.8 0.8 0.8" type="2d" width="100"/>
+        <material name="MatPlane" reflectance="0.5" shininess="1" specular="1" texrepeat="60 60" texture="texplane"/>
+        <material name="geom" texture="texgeom" texuniform="true"/>
+    </asset>
+
+
+    <worldbody>
+        <light cutoff="100" diffuse="1 1 1" dir="-0 0 -1.3" directional="true" exponent="1" pos="0 0 1.3" specular=".1 .1 .1"/>
+        <geom condim="3" friction="1 .1 .1" material="MatPlane" name="floor" pos="0 0 0" rgba="0.8 0.9 0.8 1" size="20 20 0.125" type="plane"/>
+        <!-- <geom condim="3" material="MatPlane" name="floor" pos="0 0 0" size="10 10 0.125" type="plane"/>-->
+        
+        
+        <body name="torso" pos="0 0 1.4">
+            <camera name="track" mode="trackcom" pos="0 -4 0" xyaxes="1 0 0 0 0 1"/>
+            <joint armature="0" damping="0" limited="false" name="root" pos="0 0 0" stiffness="0" type="free"/>
+            <geom fromto="0 -.07 0 0 .07 0" name="torso1" size="0.07" type="capsule"/>
+            <geom name="head" pos="0 0 .19" size=".09" type="sphere" user="258"/>
+            <geom fromto="-.01 -.06 -.12 -.01 .06 -.12" name="uwaist" size="0.06" type="capsule"/>
+            <site name="x6" pos="0.1 0 0" size="0.02" rgba="0 1 0 1"/>
+            <site name="x7" pos="-0.1 0 0" size="0.02" rgba="0 1 0 1"/>
+
+
+            <body name="lwaist" pos="-.01 0 -0.260" quat="1.000 0 -0.002 0">
+                <geom fromto="0 -.06 0 0 .06 0" name="lwaist" size="0.06" type="capsule"/>
+                <joint armature="0.02" axis="0 0 1" damping="5" name="abdomen_z" pos="0 0 0.065" range="-45 45" stiffness="20" type="hinge"/>
+                <joint armature="0.02" axis="0 1 0" damping="5" name="abdomen_y" pos="0 0 0.065" range="-75 30" stiffness="10" type="hinge"/>
+
+                <site name="x5" pos="0 0 0" size="0.02" rgba="0 1 0 1"/>
+                
+                <body name="pelvis" pos="0 0 -0.165" quat="1.000 0 -0.002 0">
+                    <joint armature="0.02" axis="1 0 0" damping="5" name="abdomen_x" pos="0 0 0.1" range="-35 35" stiffness="10" type="hinge"/>
+                    <geom fromto="-.02 -.07 0 -.02 .07 0" name="butt" size="0.09" type="capsule"/>
+
+
+                    <site name="x1" pos="0 0 -0.1" size="0.02" rgba="0 1 0 1"/>
+                    <site name="x2" pos="0 0.25 -0.1" size="0.02" rgba="0 1 0 1"/>
+                    <site name="x2_R" pos="0 -0.25 -0.1" size="0.02" rgba="0 1 0 1"/>
+                    <site name="x3_R" pos="0 -0.1 0.1" size="0.02" rgba="0 1 0 1"/>
+                    <site name="x3" pos="0 0.1 0.1" size="0.02" rgba="0 1 0 1"/>
+
+                <body name="pelvis_left" pos="0 0.1 -0.05">
+                    <geom name="pelvis_left" type="sphere" size="0.065" rgba="0 0 255 1" group="1"/>
+
+                    <site name="ss_7" pos="-0.08 0 0"  size="0.005" rgba="1 0 1 1"/>
+                    <site name="ss_8" pos="0.08 0 0"  size="0.005" rgba="1 0 1 1"/>
+
+                </body>
+
+                <body name="pelvis_right" pos="0 -0.1 -0.05">
+                    <geom name="pelvis_right" type="sphere" size="0.065" rgba="0 0 255 1" group="1"/>
+
+                    <site name="ss_7_R" pos="-0.08 0 0"  size="0.005" rgba="1 0 1 1"/>
+                    <site name="ss_8_R" pos="0.08 0 0"  size="0.005" rgba="1 0 1 1"/>
+
+                </body>                  
+                    
+                    <body name="right_thigh" pos="0 -0.1 -0.04">
+
+
+                        <!-- <site name="iliacus_r-P3" pos="0.0023 -0.0565 0.0139"/>
+                        <site name="iliacus_r-P4" pos="0.0122 -0.0637 0.0196"/> -->
+                        
+                        <site name="upper_leg_right" pos="0 -0.06 -0.2" size="0.02" rgba="0 1 0 1"/>
+                        <site name="upper_leg_right_1" pos="0 0.06 -0.2" size="0.02" rgba="0 1 0 1"/>
+                        <site name="upper_leg_right_2" pos="0.06 0 -0.2" size="0.02" rgba="0 1 0 1"/>
+                        <site name="upper_leg_right_3" pos="-0.06 0 -0.1" size="0.02" rgba="0 1 0 1"/>
+                        
+                        <joint armature="0.01" axis="1 0 0" damping="5" name="right_hip_x" pos="0 0 0" range="-25 5" stiffness="10" type="hinge"/>
+                        <joint armature="0.01" axis="0 0 1" damping="5" name="right_hip_z" pos="0 0 0" range="-60 35" stiffness="10" type="hinge"/>
+                        <joint armature="0.0080" axis="0 1 0" damping="5" name="right_hip_y" pos="0 0 0" range="-110 20" stiffness="20" type="hinge"/>
+                        <geom fromto="0 0 0 0 0.01 -.34" name="right_thigh1" size="0.06" type="capsule"/>
+                        
+                        <body name="knee_right" pos="0 0.01 -0.35">
+
+                            <geom name="knee_right" type="sphere" size="0.06" rgba="0 0 255 1" group="1"/>
+
+                            <site name="ss_5_R" pos="-0.08 0 0"  size="0.005" rgba="1 0 1 1"/>
+                            <site name="ss_6_R" pos="0.08 0 0"  size="0.005" rgba="1 0 1 1"/>
+
+                        </body>
+                        
+                        <body name="right_shin" pos="0 0.01 -0.403">
+                            
+                            <site name="calf_front_site_right" pos="-0.05 0 -0.1"  size="0.005" rgba="1 0 1 1"/>
+                            <site name="calf_back_site_right" pos="0.05 0 -0.1"  size="0.005" rgba="1 0 1 1"/>
+                            <site name="calf_side_site_right_1" pos="0 -0.06 -0.25"  size="0.005" rgba="1 0 1 1"/>
+                            <site name="calf_side_site_right_2" pos="0 0.06 -0.25"  size="0.005" rgba="1 0 1 1"/>
+
+
+                            <joint armature="0.0060" axis="0 -1 0" name="right_knee" pos="0 0 .02" range="-160 -2" type="hinge"/>
+                            <geom fromto="0 0 0 0 0 -.3" name="right_shin1" size="0.049" type="capsule"/>
+                            
+                            <body name="right_foot" pos="0 0 -0.45">
+                                <geom name="right_foot" pos="0 0 0.1" size="0.075" type="sphere" user="0"/>
+                            </body>
+                        
+                        </body>
+
+                    </body>
+
+                    <body name="left_thigh" pos="0 0.1 -0.04">
+
+
+                        <site name="upper_leg_left" pos="0 -0.06 -0.2" size="0.02" rgba="0 1 0 1"/>
+                        <site name="upper_leg_left_1" pos="0 0.06 -0.2" size="0.02" rgba="0 1 0 1"/>
+                        <site name="upper_leg_left_2" pos="0.06 0 -0.2" size="0.02" rgba="0 1 0 1"/>
+                        <site name="upper_leg_left_3" pos="-0.06 0 -0.1" size="0.02" rgba="0 1 0 1"/>
+
+                        <joint armature="0.01" axis="-1 0 0" damping="5" name="left_hip_x" pos="0 0 0" range="-25 5" stiffness="10" type="hinge"/>
+                        <joint armature="0.01" axis="0 0 -1" damping="5" name="left_hip_z" pos="0 0 0" range="-60 35" stiffness="10" type="hinge"/>
+                        <joint armature="0.01" axis="0 1 0" damping="5" name="left_hip_y" pos="0 0 0" range="-110 20" stiffness="20" type="hinge"/>
+                        <geom fromto="0 0 0 0 -0.01 -.34" name="left_thigh1" size="0.06" type="capsule"/>
+                        
+
+                        <body name="knee_left" pos="0 -0.01 -0.35">
+                        
+                            <geom name="knee_left" type="sphere" size="0.06" rgba="0 0 255 1" group="1"/>
+
+                            <site name="ss_5" pos="-0.08 0 0"  size="0.005" rgba="1 0 1 1"/>
+                            <site name="ss_6" pos="0.08 0 0"  size="0.005" rgba="1 0 1 1"/>
+
+                        </body>
+
+                        <body name="left_shin" pos="0 -0.01 -0.403">
+
+                            <site name="calf_front_site_left" pos="-0.05 0 -0.1"  size="0.005" rgba="1 0 1 1"/>
+                            <site name="calf_back_site_left" pos="0.05 0 -0.1"  size="0.005" rgba="1 0 1 1"/>
+                            <site name="calf_side_site_left_1" pos="0 -0.06 -0.25"  size="0.005" rgba="1 0 1 1"/>
+                            <site name="calf_side_site_left_2" pos="0 0.06 -0.25"  size="0.005" rgba="1 0 1 1"/>
+
+                            <joint armature="0.0060" axis="0 -1 0" name="left_knee" pos="0 0 .02" range="-160 -2" stiffness="1" type="hinge"/>
+                            <geom fromto="0 0 0 0 0 -.3" name="left_shin1" size="0.049" type="capsule"/>
+
+                            <body name="left_foot" pos="0 0 -0.45">
+                                <geom name="left_foot" type="sphere" size="0.075" pos="0 0 0.1" user="0" />
+                            </body>
+
+                        </body>
+
+                    </body>
+
+                </body>
+
+            </body>
+            <body name="right_upper_arm" pos="0 -0.17 0.06">
+                <joint armature="0.0068" axis="2 1 1" name="right_shoulder1" pos="0 0 0" range="-85 60" stiffness="1" type="hinge"/>
+                <joint armature="0.0051" axis="0 -1 1" name="right_shoulder2" pos="0 0 0" range="-85 60" stiffness="1" type="hinge"/>
+                <geom fromto="0 0 0 .16 -.16 -.16" name="right_uarm1" size="0.04 0.16" type="capsule"/>
+                <body name="right_lower_arm" pos=".18 -.18 -.18">
+                    <joint armature="0.0028" axis="0 -1 1" name="right_elbow" pos="0 0 0" range="-90 50" stiffness="0" type="hinge"/>
+                    <geom fromto="0.01 0.01 0.01 .17 .17 .17" name="right_larm" size="0.031" type="capsule"/>
+                    <geom name="right_hand" pos=".18 .18 .18" size="0.04" type="sphere"/>
+                    <camera pos="0 0 0"/>
+                </body>
+            </body>
+            <body name="left_upper_arm" pos="0 0.17 0.06">
+                <joint armature="0.0068" axis="2 -1 1" name="left_shoulder1" pos="0 0 0" range="-60 85" stiffness="1" type="hinge"/>
+                <joint armature="0.0051" axis="0 1 1" name="left_shoulder2" pos="0 0 0" range="-60 85" stiffness="1" type="hinge"/>
+                <geom fromto="0 0 0 .16 .16 -.16" name="left_uarm1" size="0.04 0.16" type="capsule"/>
+                <body name="left_lower_arm" pos=".18 .18 -.18">
+                    <joint armature="0.0028" axis="0 -1 -1" name="left_elbow" pos="0 0 0" range="-90 50" stiffness="0" type="hinge"/>
+                    <geom fromto="0.01 -0.01 0.01 .17 -.17 .17" name="left_larm" size="0.031" type="capsule"/>
+                    <geom name="left_hand" pos=".18 -.18 .18" size="0.04" type="sphere"/>
+                </body>
+            </body>
+        </body>
+    </worldbody>
+
+ <tendon>
+
+
+    <!-- <fixed name="hamstring_right" limited="true" range="-0.3 2">
+      <joint joint="hip_y_right" coef=".5"/>
+      <joint joint="knee_right" coef="-.5"/>
+    </fixed>
+    <fixed name="hamstring_left" limited="true" range="-0.3 2">
+      <joint joint="hip_y_left" coef=".5"/>  <tendon>
+    <fixed name="hamstring_right" limited="true" range="-0.3 2">
+      <joint joint="hip_y_right" coef=".5"/>
+      <joint joint="knee_right" coef="-.5"/>
+    </fixed>
+    <fixed name="hamstring_left" limited="true" range="-0.3 2">
+      <joint joint="hip_y_left" coef=".5"/>
+      <joint joint="knee_left" coef="-.5"/>
+    </fixed>
+  </tendon>
+    </fixed> -->
+<!-- 
+
+        <spatial name="iliacus_r_tendon" springlength="0.0961207">
+            <site site="x3_R"/>
+
+            <site site="iliacus_r-P3"/>
+            <site site="iliacus_r-P4"/>
+        </spatial> -->
+
+    <spatial name="ab" width="0.005" rgba=".4 .6 .4 1" group="1">
+        <site site="x5"/>
+        <site site="x3"/>
+    </spatial>
+
+    <spatial name="ab_F" width="0.005" rgba=".4 .6 .4 1" group="1">
+        <site site="x1"/>
+        <site site="x6"/>
+    </spatial>
+
+    <spatial name="ab_B" width="0.005" rgba=".4 .6 .4 1" group="1">
+        <site site="x1"/>
+        <site site="x7"/>
+    </spatial>
+
+
+    <spatial name="ab_R" width="0.005" rgba=".4 .6 .4 1" group="1">
+        <site site="x5"/>
+        <site site="x3_R"/>
+    </spatial>
+
+
+
+    <spatial name="leg_back_R" width="0.005" rgba=".4 .6 .4 1" group="1">
+        <site site="x3_R"/>
+        <geom geom="pelvis_right" sidesite="ss_7_R"/>
+        <site site="upper_leg_right_3"/>
+    </spatial>
+
+
+    <spatial name="leg_front_R" width="0.005" rgba=".4 .6 .4 1" group="1">
+        <site site="x3_R"/>
+        <geom geom="pelvis_right" sidesite="ss_8_R"/>
+        <site site="upper_leg_right_2"/>
+    </spatial>
+
+    <spatial name="abduc_out_R" width="0.005" rgba=".4 .6 .4 1" group="1">
+        <site site="x2_R"/>
+        <site site="upper_leg_right"/>
+    </spatial>
+
+    <spatial name="abduc_in_R" width="0.005" rgba=".4 .6 .4 1" group="1">
+        <site site="x1"/>
+        <site site="upper_leg_right_1"/>
+    </spatial>
+
+    <spatial name="hamstring_R" width="0.005" rgba=".4 .6 .4 1" group="1">
+        <site site="upper_leg_right_3"/>
+        <geom geom="knee_right" sidesite="ss_5_R"/>
+        <site site="calf_front_site_right"/>
+    </spatial>
+
+    <spatial name="quad_R" width="0.005" rgba=".4 .6 .4 1" group="1">
+        <site site="upper_leg_right_2"/>
+        <geom geom="knee_right" sidesite="ss_6_R"/>
+        <site site="calf_back_site_right"/>
+    </spatial>
+
+
+
+
+
+
+
+    <spatial name="leg_back" width="0.005" rgba=".4 .6 .4 1" group="1">
+        <site site="x3"/>
+        <geom geom="pelvis_left" sidesite="ss_7"/>
+        <site site="upper_leg_left_3"/>
+    </spatial>
+
+
+    <spatial name="leg_front" width="0.005" rgba=".4 .6 .4 1" group="1">
+        <site site="x3"/>
+        <geom geom="pelvis_left" sidesite="ss_8"/>
+        <site site="upper_leg_left_2"/>
+    </spatial>
+
+    <spatial name="abduc_out" width="0.005" rgba=".4 .6 .4 1" group="1">
+        <site site="x2"/>
+        <site site="upper_leg_left_1"/>
+    </spatial>
+
+    <spatial name="abduc_in" width="0.005" rgba=".4 .6 .4 1" group="1">
+        <site site="x1"/>
+        <site site="upper_leg_left"/>
+    </spatial>
+
+    <spatial name="hamstring" width="0.005" rgba=".4 .6 .4 1" group="1">
+        <site site="upper_leg_left_3"/>
+        <geom geom="knee_left" sidesite="ss_5"/>
+        <site site="calf_front_site_left"/>
+    </spatial>
+
+    <spatial name="quad" width="0.005" rgba=".4 .6 .4 1" group="1">
+        <site site="upper_leg_left_2"/>
+        <geom geom="knee_left" sidesite="ss_6"/>
+        <site site="calf_back_site_left"/>
+    </spatial>
+
+
+
+
+
+  </tendon>
+
+  <actuator>
+    <!-- <motor name="abdomen_z"       gear="40"  joint="abdomen_z"/>
+    <motor name="abdomen_y"       gear="40"  joint="abdomen_y"/>
+    <motor name="abdomen_x"       gear="40"  joint="abdomen_x"/>
+    <motor name="hip_x_right"     gear="40"  joint="hip_x_right"/>
+    <motor name="hip_z_right"     gear="40"  joint="hip_z_right"/>
+    <motor name="hip_y_right"     gear="120" joint="hip_y_right"/>
+    <motor name="knee_right"      gear="80"  joint="knee_right"/>
+    <motor name="ankle_y_right"   gear="20"  joint="ankle_y_right"/>
+    <motor name="ankle_x_right"   gear="20"  joint="ankle_x_right"/>
+    <motor name="hip_x_left"      gear="40"  joint="hip_x_left"/>
+
+    <motor name="hip_y_left"      gear="120" joint="hip_y_left"/>
+    <motor name="knee_left"       gear="80"  joint="knee_left"/>
+    <motor name="ankle_y_left"    gear="20"  joint="ankle_y_left"/>
+    <motor name="ankle_x_left"    gear="20"  joint="ankle_x_left"/> -->
+
+
+    <!-- <muscle name="iliacus_r_tendon" tendon="iliacus_r_tendon" lengthrange="0 1" ctrlrange="0 1" force="1000"/> -->
+
+    <muscle name="ab_F" tendon="ab_F" lengthrange="0 1" ctrlrange="0 1" force="1000"/>
+
+    <muscle name="ab_B" tendon="ab_B" lengthrange="0 1" ctrlrange="0 1" force="1000"/>
+
+
+    <muscle name="ab" tendon="ab" lengthrange="0 1" ctrlrange="0 1" force="1000"/>
+
+    <muscle name="ab_R" tendon="ab_R" lengthrange="0 1" ctrlrange="0 1" force="1000"/>
+
+
+    <muscle name="leg_back_R" tendon="leg_back_R" lengthrange="0 1" ctrlrange="0 1" force="1000"/>
+
+    <muscle name="leg_front_R" tendon="leg_front_R" lengthrange="0 1" ctrlrange="0 1" force="1000"/>
+
+    <muscle name="abduc_out_R" tendon="abduc_out_R" lengthrange="0 1" ctrlrange="0 1" force="1000"/>
+
+    <muscle name="abduc_in_R" tendon="abduc_in_R" lengthrange="0 1" ctrlrange="0 1" force="1000"/>
+
+    <muscle name="hamstring_R" tendon="hamstring_R" lengthrange="0 1" ctrlrange="0 1" force="1000"/>
+    <muscle name="quad_R" tendon="quad_R" lengthrange="0 1" ctrlrange="0 1" force="1000"/>
+
+
+
+
+
+    <muscle name="leg_back" tendon="leg_back" lengthrange="0 1" ctrlrange="0 1" force="1000"/>
+
+    <muscle name="leg_front" tendon="leg_front" lengthrange="0 1" ctrlrange="0 1" force="1000"/>
+
+    <muscle name="abduc_out" tendon="abduc_out" lengthrange="0 1" ctrlrange="0 1" force="1000"/>
+
+    <muscle name="abduc_in" tendon="abduc_in" lengthrange="0 1" ctrlrange="0 1" force="1000"/>
+
+    <muscle name="hamstring" tendon="hamstring" lengthrange="0 1" ctrlrange="0 1" force="1000"/>
+    <muscle name="quad" tendon="quad" lengthrange="0 1" ctrlrange="0 1" force="1000"/>
+
+
+
+       <!-- <motor gear="100" joint="abdomen_y" name="abdomen_y"/>
+        <motor gear="100" joint="abdomen_z" name="abdomen_z"/>
+        <motor gear="100" joint="abdomen_x" name="abdomen_x"/>
+        <motor gear="100" joint="right_hip_x" name="right_hip_x"/>
+        <motor gear="100" joint="right_hip_z" name="right_hip_z"/>
+        <motor gear="300" joint="right_hip_y" name="right_hip_y"/>
+        <motor gear="200" joint="right_knee" name="right_knee"/>
+        <motor gear="100" joint="left_hip_x" name="left_hip_x"/>
+        <motor gear="100" joint="left_hip_z" name="left_hip_z"/>
+        <motor gear="300" joint="left_hip_y" name="left_hip_y"/>
+        <motor gear="200" joint="left_knee" name="left_knee"/>
+        <motor gear="25" joint="right_shoulder1" name="right_shoulder1"/>
+        <motor gear="25" joint="right_shoulder2" name="right_shoulder2"/>
+        <motor gear="25" joint="right_elbow" name="right_elbow"/>
+        <motor gear="25" joint="left_shoulder1" name="left_shoulder1"/>
+        <motor gear="25" joint="left_shoulder2" name="left_shoulder2"/>
+        <motor gear="25" joint="left_elbow" name="left_elbow"/> -->
+  </actuator>
+
+
+    <!-- <tendon>
+        <fixed name="left_hipknee">
+            <joint coef="-1" joint="left_hip_y"/>
+            <joint coef="1" joint="left_knee"/>
+        </fixed>
+        <fixed name="right_hipknee">
+            <joint coef="-1" joint="right_hip_y"/>
+            <joint coef="1" joint="right_knee"/>
+        </fixed>
+    </tendon>
+
+    <actuator>
+ 
+    </actuator> -->
+</mujoco>

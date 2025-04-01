@@ -4,7 +4,6 @@ from gymnasium import utils
 from gymnasium.envs.mujoco import MujocoEnv
 from gymnasium.spaces import Box
 
-
 DEFAULT_CAMERA_CONFIG = {
     "trackbodyid": 1,
     "distance": 4.0,
@@ -28,7 +27,7 @@ class HumanoidEnv(MujocoEnv, utils.EzPickle):
             "rgb_array",
             "depth_array",
         ],
-        "render_fps":40,
+        "render_fps": 67,
     }
 
     def __init__(
@@ -68,7 +67,7 @@ class HumanoidEnv(MujocoEnv, utils.EzPickle):
 
         if exclude_current_positions_from_observation:
             observation_space = Box(
-                low=-np.inf, high=np.inf, shape=(436,), dtype=np.float64
+                low=-np.inf, high=np.inf, shape=(464,), dtype=np.float64
             )
         else:
             observation_space = Box(
@@ -76,7 +75,7 @@ class HumanoidEnv(MujocoEnv, utils.EzPickle):
             )
 
         MujocoEnv.__init__(
-            self, "human_ab.xml", 5, observation_space=observation_space, **kwargs
+            self, "human_muscle.xml", 5, observation_space=observation_space, **kwargs
         )
 
     @property
