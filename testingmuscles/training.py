@@ -64,10 +64,10 @@ class SaveModelCallback(BaseCallback):
         return True
 
 # Initialize PPO model
-model = PPO("MlpPolicy", env, verbose=1, tensorboard_log="./ppo_humanoid_tensorboard/")  # Initialize model for training
+# model = PPO("MlpPolicy", env, verbose=1, tensorboard_log="./ppo_humanoid_tensorboard/")  # Initialize model for training
 
 # Alternatively, load the pre-trained model (if you're just testing the trained model)
-# model = PPO.load("ppo_humanoid_model_motors_trained_v4.zip", env=env)
+model = PPO.load("ppo_humanoid_model_muscles_new_V1_test.zip", env=env)
 
 # Create the callback for saving the model every 100,000 timesteps
 save_callback = SaveModelCallback(save_freq=2500000, save_path="./models")
